@@ -1,0 +1,82 @@
+# Configuración del asistente. Editable a mano.
+# Solo config.py lee este fichero; el resto del código recibe un objeto Config.
+
+[llm]
+# Nombre del modelo tal y como lo conoce Ollama (`ollama list`).
+model = "gemma3:12b"
+# Host donde escucha Ollama en local.
+host = "http://localhost:11434"
+# Segundos máximos de espera por una respuesta.
+timeout = 60.0
+# Reintentos ante un fallo de conexión con Ollama (además del intento inicial).
+retries = 1
+
+[conversation]
+# Número de turnos (usuario + asistente) que se recuerdan en la sesión.
+# Acota la RAM y el tamaño del prompt enviado al modelo.
+max_turns = 10
+
+[profile]
+# Perfil (personalidad) activo del asistente. Corresponde al fichero
+# <directory>/<active>.txt. Para cambiar de perfil, edita esto y reinicia.
+active = "aleman"
+# Carpeta donde viven los perfiles: un fichero de texto .txt por perfil.
+directory = "prompts"
+
+[tools]
+# Carpeta base para la herramienta "leer_archivo" (relativa a este config.toml).
+# La lectura queda restringida a esta carpeta por seguridad.
+files_dir = "notes"
+# Máximo de herramientas encadenadas por turno (evita bucles infinitos).
+max_iterations = 3
+
+[memory]
+# Fichero SQLite donde se guardan los hechos que el asistente recuerda entre
+# sesiones (relativo a este config.toml). Se crea solo la primera vez.
+db_path = "data/memory.db"
+# Máximo de hechos (los más recientes) que se inyectan en el prompt cada turno.
+# Acota el tamaño del prompt cuando la memoria crece. No borra nada del disco.
+max_facts = 20
+
+[organizer]
+# Fichero SQLite de las listas del organizador (tareas, compra, ...).
+db_path = "data/organizer.db"
+
+[retrieval]
+# Búsqueda semántica en las notas (herramienta buscar_notas).
+enabled = true
+# Modelo de embeddings de Ollama. Requiere: `ollama pull nomic-embed-text`.
+embed_model = "nomic-embed-text"
+# Índice de vectores (SQLite, relativo a este config.toml). Se crea solo.
+index_db = "data/notes_index.db"
+# Cuántos fragmentos devuelve una búsqueda.
+top_k = 3
+# Tamaño máximo (caracteres) de cada fragmento indexado.
+chunk_size = 800
+
+[audit]
+# Registro de actividad: cada herramienta usada queda anotada, en orden, en un
+# fichero JSONL. Se ve con el comando /actividad. Es aparte del log de consola.
+enabled = true
+file = "data/activity.log"
+
+[web]
+# Interfaz web local (python -m assistant.web).
+# host 127.0.0.1 = solo este equipo (seguro). Ponlo a "0.0.0.0" para acceder
+# desde el móvil u otros equipos de tu red local (sin autenticación: úsalo solo
+# en una red de confianza).
+# host = "127.0.0.1"
+host = "0.0.0.0"
+port = 8000
+# Token de acceso. Vacío = sin autenticación (bien para uso local en 127.0.0.1).
+# Si expones la web a la red (host "0.0.0.0"), PON UN TOKEN aquí: se te pedirá una
+# vez en el navegador/móvil y protege el acceso.
+token = "test"
+
+[logging]
+# Nivel de detalle: DEBUG, INFO, WARNING, ERROR.
+# Con INFO se ven en consola las invocaciones de herramientas. Con DEBUG, además,
+# el detalle de las peticiones al modelo.
+level = "INFO"
+# Opcional: fichero donde volcar también los logs (relativo a este config.toml).
+# file = "data/assistant.log"

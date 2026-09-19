@@ -1,0 +1,55 @@
+# --- Datos del usuario (memoria, listas, índice de notas, registro de actividad) ---
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# --- Notas personales (se conserva solo el ejemplo) ---
+notes/*
+!notes/ejemplo.txt
+
+prompts/*
+!prompts/aleman.txt
+!prompts/conciso.txt
+!prompts/italiano.txt
+!prompts/system.txt
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Secretos y configuración local ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+config.local.toml
+secrets.toml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.venv/
+venv/
+env/
+
+# --- Herramientas ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Editores y sistema ---
+.idea/
+.vscode/
+.DS_Store

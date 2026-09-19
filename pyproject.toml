@@ -1,0 +1,34 @@
+[project]
+name = "assistant-pi"
+version = "0.1.0"
+description = "Asistente personal local para Raspberry Pi 5 (Gemma 3 1B vía Ollama)"
+requires-python = ">=3.11"
+dependencies = []
+
+# Dependencias SOLO de desarrollo (no se instalan en la Raspberry Pi en runtime).
+# Instalar con:  pip install -e ".[dev]"
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 90
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+disallow_untyped_defs = true
+ignore_missing_imports = true
